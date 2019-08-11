@@ -8,20 +8,24 @@ function toDateTime(secs) {
     //console.log(secs.toDateTime);
     var t = new Date(1970, 0, 1); // Epoch
     t.setSeconds(secs);
-    return t
+    return t.toLocaleString();
 }
 
 function initializePosts() {
-
+    
     const main = document.getElementById("main");
     var element = main.lastChild;
     while (element) {
         main.removeChild(element);
         element = main.lastChild;
     }
+    const feedListDiv = document.createElement("div");
+    feedListDiv.setAttribute("class", "flex-container") ;
+    
     const feedList = document.createElement("ul");
     feedList.setAttribute("class", "feed");
     feedList.setAttribute("data-id-feed", "");
+    feedListDiv.appendChild(feedList);
 
     const feedHeader = document.createElement("div");
     feedHeader.setAttribute("class", "feed-header");
@@ -42,26 +46,27 @@ function initializePosts() {
                 li.setAttribute("class", "post");
                 li.setAttribute("data-id-post", "");
 
-                var userDiv = document.createElement("div");
-                userDiv.setAttribute("class", "user");
-                userDiv.setAttribute("data-id-author", "");
-
-                var userName = document.createElement("p");
-                userName.innerText = posts.posts[i].meta.author;
-
-                userDiv.appendChild(userName);
-
                 var upvoteDiv = document.createElement("div");
                 upvoteDiv.setAttribute("class", "vote");
-                upvoteDiv.setAttribute("data-id-upvotes", "");
-
+                upvoteDiv.style.width = "70px";
+                
                 var upvotes = Object.keys(posts.posts[i].meta.upvotes).length;
 
                 var upvoteText = document.createElement("p");
-                upvoteText.innerText = "Upvotes " + upvotes;
+                upvoteText.innerText = "Upvotes\n\n " + upvotes;
+                upvoteText.setAttribute("data-id-upvotes", "");
 
                 upvoteDiv.appendChild(upvoteText);
+                
 
+                var contentDiv = document.createElement("div");
+                contentDiv.setAttribute("class", "flex-container");
+                contentDiv.style.display = "flex";
+                contentDiv.style.flexWrap = "wrap";
+                contentDiv.style.flexDirection = "column";
+                contentDiv.style.justifyContent = "flex-end";
+                contentDiv.style.margin = "0px";
+                
                 var titleDiv = document.createElement("div");
                 titleDiv.setAttribute("class", "content");
 
@@ -71,69 +76,103 @@ function initializePosts() {
                 h4.innerText = posts.posts[i].title;
                 titleDiv.appendChild(h4);
 
-                var contentDiv = document.createElement("div");
-                contentDiv.setAttribute("class", "content");
+                contentDiv.appendChild(titleDiv);
 
+                var postDiv = document.createElement("div");
+                postDiv.setAttribute("class", "content");
                 var para = document.createElement("p");
                 para.innerText = posts.posts[i].text;
 
-                contentDiv.appendChild(para);
+                postDiv.appendChild(para);
+                contentDiv.appendChild(postDiv);
+                
+                var bottomRowList = document.createElement("ul");
+                bottomRowList.setAttribute("class", "flat-list");
+                //bottomRowList.style.display = "inline";
+                bottomRowList.style.zoom = 1;
+                bottomRowList.style.listStyleType = "none";
+                bottomRowList.style.margin = 0;
+                bottomRowList.style.padding = 0;
+                bottomRowList.style.overflow = "hidden";
+                bottomRowList.style.textAlign = "center";
+                bottomRowList.style.alignSelf = "flex-end";
 
-                var subredditDiv = document.createElement("div");
-                subredditDiv.setAttribute("class", "content");
+                var userli = document.createElement("li");
+                userli.setAttribute("class", "user");
+                //userli.style.marginLeft = "200px";
+                userli.style.display = "inline-block";
+
+                var userName = document.createElement("p");
+                userName.innerText = "Submitted by: " + posts.posts[i].meta.author;
+                userName.setAttribute("data-id-author", "");
+
+                userli.appendChild(userName);
+                bottomRowList.appendChild(userli);
+                
+                var subredditLi = document.createElement("li");
+                subredditLi.setAttribute("class", "content");
+                subredditLi.style.display = "inline-block";
 
                 var para2 = document.createElement("p");
-                para2.innerText = "SubSeddit: " + posts.posts[i].meta.subseddit;
+                para2.innerText = "to SubSeddit: " + posts.posts[i].meta.subseddit;
 
-                subredditDiv.appendChild(para2);
+                subredditLi.appendChild(para2);
+
+                bottomRowList.appendChild(subredditLi);
 
 
-                var timeDiv = document.createElement("div");
-                timeDiv.setAttribute("class", "content");
-
+                var timeLi = document.createElement("li");
+                timeLi.setAttribute("class", "content");
+                timeLi.style.display = "inline-block";    
                 var time = document.createElement("p");
                 time.innerText = "Submitted at " + toDateTime(posts.posts[i].meta.published);
 
-                timeDiv.appendChild(time);
+                timeLi.appendChild(time);
 
-                var commentsDiv = document.createElement("div");
-                commentsDiv.setAttribute("class", "comments");
-
+                var commentsLi = document.createElement("li");
+                commentsLi.setAttribute("class", "comments");
+                commentsLi.style.display = "inline-block";
                 var comments = Object.keys(posts.posts[i].comments).length;
 
                 var commentText = document.createElement("p");
                 commentText.innerText = "Comments " + comments;
 
-                commentsDiv.appendChild(commentText);
+                commentsLi.appendChild(commentText);
 
+                bottomRowList.appendChild(timeLi);
+                bottomRowList.appendChild(commentsLi);
+                // bottomRowList.appendChild(timeLi);
 
-
-                li.appendChild(userDiv);
+                // li.appendChild(userDiv);
+                
+                // li.appendChild(upvoteDiv);
+                // li.appendChild(titleDiv);
+                // li.appendChild(contentDiv);
+                // li.appendChild(subredditDiv);
+                // li.appendChild(timeDiv);
+                // li.appendChild(commentsDiv);
+                contentDiv.appendChild(bottomRowList);    
+                li.appendChild(upvoteDiv);
                 if (posts.posts[i].image) {
                     var imageDiv = document.createElement("div");
                     imageDiv.setAttribute("class", "thumbnail");
-                    var image = new Image(200,200);
+                    var image = new Image(80,80);
                     image.src = 'data:image/jpeg;base64,' + posts.posts[i].image;
             
                     imageDiv.appendChild(image);
+                    imageDiv.style.marginLeft = "15px";
                     li.appendChild(imageDiv);
                 }
-                li.appendChild(upvoteDiv);
-                li.appendChild(titleDiv);
+                else{
+                    contentDiv.style.marginLeft = "95px";
+                }
                 li.appendChild(contentDiv);
-                li.appendChild(subredditDiv);
-                li.appendChild(timeDiv);
-                li.appendChild(commentsDiv);
-
                 feedList.appendChild(li);
 
             }
-
-
-
         });
 
-    main.appendChild(feedList);
+    main.appendChild(feedListDiv);
 }
 
 export default initializePosts
