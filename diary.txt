@@ -1,2 +1,2 @@
-25/07/19     18:00   18:15   put the first real entry in diary.txt (delete this line!)
+10/08/19     12:00   02:00   Started and finished Subset 0 (albeit doesn't look very pretty)
 
