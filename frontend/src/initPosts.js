@@ -2,16 +2,16 @@
 
 Static initialization of the posts
 */
-//https://stackoverflow.com/a/4611809/8618678
+
+//Taken from: https://stackoverflow.com/a/4611809/8618678
 function toDateTime(secs) {
 
-    //console.log(secs.toDateTime);
     var t = new Date(1970, 0, 1); // Epoch
     t.setSeconds(secs);
     return t.toLocaleString();
 }
 
-function initializePosts() {
+function initializePosts(apiUrl) {
     
     const main = document.getElementById("main");
     var element = main.lastChild;
@@ -37,6 +37,24 @@ function initializePosts() {
 
     feedHeader.appendChild(feedTitle);
     feedList.appendChild(feedHeader);
+    if(sessionStorage.getItem("token")){
+        console.log("Logged in");
+        fetch(apiUrl + "/user/feed",  {
+            method : 'GET',
+            headers:{
+                'accept'    : 'application/json',
+                'Authorization' : "Token " + sessionStorage.getItem("token")
+            }
+        }).then(result => result.json()).then(res => console.log(res));
+    }else{
+        console.log("WOOP");
+        fetch(apiUrl + "/post/public", {
+            method : 'GET',
+            headers:{
+                'accept'    : 'application/json'
+            }
+        }).then(result => result.json()).then(res => console.log(res));
+    }
     fetch("../data/feed.json", { credentials: 'include' })
         .then(response => response.json())
         .then((posts) => {
@@ -114,7 +132,7 @@ function initializePosts() {
                 subredditLi.style.display = "inline-block";
 
                 var para2 = document.createElement("p");
-                para2.innerText = "to SubSeddit: " + posts.posts[i].meta.subseddit;
+                para2.innerText = "to /s/" + posts.posts[i].meta.subseddit;
 
                 subredditLi.appendChild(para2);
 
@@ -141,16 +159,7 @@ function initializePosts() {
 
                 bottomRowList.appendChild(timeLi);
                 bottomRowList.appendChild(commentsLi);
-                // bottomRowList.appendChild(timeLi);
 
-                // li.appendChild(userDiv);
-                
-                // li.appendChild(upvoteDiv);
-                // li.appendChild(titleDiv);
-                // li.appendChild(contentDiv);
-                // li.appendChild(subredditDiv);
-                // li.appendChild(timeDiv);
-                // li.appendChild(commentsDiv);
                 contentDiv.appendChild(bottomRowList);    
                 li.appendChild(upvoteDiv);
                 if (posts.posts[i].image) {

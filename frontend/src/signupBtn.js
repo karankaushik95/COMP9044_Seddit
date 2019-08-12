@@ -4,7 +4,7 @@ Signup button eventlistener
 
 import initializePosts from './initPosts.js';
 
-function signupBtnListener(){
+function signupBtnListener(apiUrl){
     const signupBtn = document.getElementById("signupBtn");
     signupBtn.addEventListener("click", ()=>{
      
@@ -119,8 +119,35 @@ function signupBtnListener(){
                 password.style.borderColor = "black";
             }
 
-            //Tempcode cause no backend
-            alert("Connection to server failed! Please check your connection or try again later");
+            const data = {"username"  : username.value, "password" : password.value};
+            fetch(apiUrl + "/auth/signup",{
+                method : 'POST',
+                body: JSON.stringify(data),
+                headers:{
+                    'Content-type' : 'application/json',
+                    'accept'    : 'application/json'
+                }
+            }).then (res => res.json()).then( function(response){
+                console.log(response);
+                if(!response.token){
+                    alert("Username is already taken, please pick another!");
+                }else{
+                    alert("Welcome to Seddit " + username.value + "!");
+                    sessionStorage.setItem('token', response.token);
+                    document.getElementById("loginBtn").style.visibility = "hidden";
+                    signupBtn.style.visibility = "hidden";
+                    const usertext = document.createElement("p");
+                    usertext.innerText = "Hi " + username.value + "!";
+                    usertext.style.fontSize = "12px";
+                    const ulItem = document.createElement("li");
+                    ulItem.setAttribute("class", "nav-item");
+                    ulItem.appendChild(usertext);
+                    const list = document.getElementById("buttonList");
+                    //console.log(list);
+                    list.appendChild(ulItem);
+                    initializePosts(apiUrl);
+                }
+            });
         });
         
     

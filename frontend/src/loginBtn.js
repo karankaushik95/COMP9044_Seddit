@@ -4,8 +4,8 @@ Login button eventlistener
 
 import initializePosts from './initPosts.js';
 
-function loginBtnListener(){
-
+function loginBtnListener(apiUrl){
+    //console.log(apiUrl);
     const loginBtn = document.getElementById("loginBtn");
     loginBtn.addEventListener("click", ()=>{
 
@@ -72,7 +72,7 @@ function loginBtnListener(){
         cancelBtn.style.marginLeft = "60px";
         cancelBtn.addEventListener("click", event =>{
             event.preventDefault();
-            initializePosts();
+            initializePosts(apiUrl);
         });
 
         div.appendChild(header);
@@ -116,8 +116,35 @@ function loginBtnListener(){
                 password.style.borderColor = "black";
             }
 
-            //Tempcode cause no backend
-            alert("Authentication failed! Please check your connection or try again later");
+            const data = {"username"  : username.value, "password" : password.value};
+            fetch(apiUrl + "/auth/login",{
+                method : 'POST',
+                body: JSON.stringify(data),
+                headers:{
+                    'Content-type' : 'application/json',
+                    'accept'    : 'application/json'
+                }
+            }).then (res => res.json()).then( function(response){
+                if(!response.token){
+                    alert("Invalid username or password! Please check your credentials");
+                }else{
+                    alert("Welcome back " + username.value + "!");
+                    sessionStorage.setItem('token', response.token);
+                    document.getElementById("signupBtn").style.visibility = "hidden";
+                    loginBtn.style.visibility = "hidden";
+                    const usertext = document.createElement("p");
+                    usertext.innerText = "Hi " + username.value + "!";
+                    usertext.style.fontSize = "12px";
+                    const ulItem = document.createElement("li");
+                    ulItem.setAttribute("class", "nav-item");
+                    ulItem.appendChild(usertext);
+                    const list = document.getElementById("buttonList");
+                    //console.log(list);
+                    list.appendChild(ulItem);
+                    initializePosts(apiUrl);
+                }
+            });
+
         });
         
     

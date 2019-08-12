@@ -15,9 +15,9 @@ import initializePosts from './initPosts.js';
 function initApp(apiUrl) {
   // your app initialisation goes here
   initializeUI();
-  loginBtnListener();
-  signupBtnListener();
-  initializePosts();
+  loginBtnListener(apiUrl);
+  signupBtnListener(apiUrl);
+  initializePosts(apiUrl);
 }
 
 export default initApp;
