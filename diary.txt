@@ -1,4 +1,5 @@
 10/08/19     12:00   02:00   Started and finished Subset 0 (albeit doesn't look very pretty)
 11/08/19     23:00   03:35   Beautified and finished subset 0
-12/08/19     22:00   02:00   Messed with backend, got it working and looking to finish subset 1 soon   
+12/08/19     22:00   02:00   Messed with backend, got it working and looking to finish subset 1 soon
+13/08/19     23:00   23:45   Finished up login and registration, need to beautify feed         
 

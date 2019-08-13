@@ -12,7 +12,7 @@ function toDateTime(secs) {
 }
 
 function initializePosts(apiUrl) {
-    
+
     const main = document.getElementById("main");
     var element = main.lastChild;
     while (element) {
@@ -20,8 +20,8 @@ function initializePosts(apiUrl) {
         element = main.lastChild;
     }
     const feedListDiv = document.createElement("div");
-    feedListDiv.setAttribute("class", "flex-container") ;
-    
+    feedListDiv.setAttribute("class", "flex-container");
+
     const feedList = document.createElement("ul");
     feedList.setAttribute("class", "feed");
     feedList.setAttribute("data-id-feed", "");
@@ -35,23 +35,34 @@ function initializePosts(apiUrl) {
 
     const postButton = document.createElement("button");
 
+    if (sessionStorage.getItem('username')) {
+        document.getElementById("signupBtn").style.visibility = "hidden";
+        document.getElementById("loginBtn").style.visibility = "hidden";
+        const usertext = document.createElement("label");
+        usertext.innerText = "Hi " + sessionStorage.getItem('username') + "!";
+        usertext.style.fontSize = "15px";
+        const ulItem = document.createElement("li");
+        ulItem.setAttribute("class", "nav-item");
+        ulItem.appendChild(usertext);
+        const list = document.getElementById("buttonList");
+        list.appendChild(ulItem);
+    }
+
     feedHeader.appendChild(feedTitle);
     feedList.appendChild(feedHeader);
-    if(sessionStorage.getItem("token")){
-        console.log("Logged in");
-        fetch(apiUrl + "/user/feed",  {
-            method : 'GET',
-            headers:{
-                'accept'    : 'application/json',
-                'Authorization' : "Token " + sessionStorage.getItem("token")
+    if (sessionStorage.getItem("token")) {
+        fetch(apiUrl + "/user/feed", {
+            method: 'GET',
+            headers: {
+                'accept': 'application/json',
+                'Authorization': "Token " + sessionStorage.getItem("token")
             }
         }).then(result => result.json()).then(res => console.log(res));
-    }else{
-        console.log("WOOP");
+    } else {
         fetch(apiUrl + "/post/public", {
-            method : 'GET',
-            headers:{
-                'accept'    : 'application/json'
+            method: 'GET',
+            headers: {
+                'accept': 'application/json'
             }
         }).then(result => result.json()).then(res => console.log(res));
     }
@@ -67,7 +78,7 @@ function initializePosts(apiUrl) {
                 var upvoteDiv = document.createElement("div");
                 upvoteDiv.setAttribute("class", "vote");
                 upvoteDiv.style.width = "70px";
-                
+
                 var upvotes = Object.keys(posts.posts[i].meta.upvotes).length;
 
                 var upvoteText = document.createElement("p");
@@ -75,7 +86,7 @@ function initializePosts(apiUrl) {
                 upvoteText.setAttribute("data-id-upvotes", "");
 
                 upvoteDiv.appendChild(upvoteText);
-                
+
 
                 var contentDiv = document.createElement("div");
                 contentDiv.setAttribute("class", "flex-container");
@@ -84,7 +95,7 @@ function initializePosts(apiUrl) {
                 contentDiv.style.flexDirection = "column";
                 contentDiv.style.justifyContent = "flex-end";
                 contentDiv.style.margin = "0px";
-                
+
                 var titleDiv = document.createElement("div");
                 titleDiv.setAttribute("class", "content");
 
@@ -103,7 +114,7 @@ function initializePosts(apiUrl) {
 
                 postDiv.appendChild(para);
                 contentDiv.appendChild(postDiv);
-                
+
                 var bottomRowList = document.createElement("ul");
                 bottomRowList.setAttribute("class", "flat-list");
                 //bottomRowList.style.display = "inline";
@@ -126,7 +137,7 @@ function initializePosts(apiUrl) {
 
                 userli.appendChild(userName);
                 bottomRowList.appendChild(userli);
-                
+
                 var subredditLi = document.createElement("li");
                 subredditLi.setAttribute("class", "content");
                 subredditLi.style.display = "inline-block";
@@ -141,7 +152,7 @@ function initializePosts(apiUrl) {
 
                 var timeLi = document.createElement("li");
                 timeLi.setAttribute("class", "content");
-                timeLi.style.display = "inline-block";    
+                timeLi.style.display = "inline-block";
                 var time = document.createElement("p");
                 time.innerText = "Submitted at " + toDateTime(posts.posts[i].meta.published);
 
@@ -160,19 +171,19 @@ function initializePosts(apiUrl) {
                 bottomRowList.appendChild(timeLi);
                 bottomRowList.appendChild(commentsLi);
 
-                contentDiv.appendChild(bottomRowList);    
+                contentDiv.appendChild(bottomRowList);
                 li.appendChild(upvoteDiv);
                 if (posts.posts[i].image) {
                     var imageDiv = document.createElement("div");
                     imageDiv.setAttribute("class", "thumbnail");
-                    var image = new Image(80,80);
+                    var image = new Image(80, 80);
                     image.src = 'data:image/jpeg;base64,' + posts.posts[i].image;
-            
+
                     imageDiv.appendChild(image);
                     imageDiv.style.marginLeft = "15px";
                     li.appendChild(imageDiv);
                 }
-                else{
+                else {
                     contentDiv.style.marginLeft = "95px";
                 }
                 li.appendChild(contentDiv);

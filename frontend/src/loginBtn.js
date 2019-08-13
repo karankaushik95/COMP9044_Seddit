@@ -130,17 +130,7 @@ function loginBtnListener(apiUrl){
                 }else{
                     alert("Welcome back " + username.value + "!");
                     sessionStorage.setItem('token', response.token);
-                    document.getElementById("signupBtn").style.visibility = "hidden";
-                    loginBtn.style.visibility = "hidden";
-                    const usertext = document.createElement("p");
-                    usertext.innerText = "Hi " + username.value + "!";
-                    usertext.style.fontSize = "12px";
-                    const ulItem = document.createElement("li");
-                    ulItem.setAttribute("class", "nav-item");
-                    ulItem.appendChild(usertext);
-                    const list = document.getElementById("buttonList");
-                    //console.log(list);
-                    list.appendChild(ulItem);
+                    sessionStorage.setItem('username', username.value);
                     initializePosts(apiUrl);
                 }
             });
