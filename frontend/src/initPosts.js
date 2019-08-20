@@ -1,7 +1,9 @@
 /*
-
-Static initialization of the posts
+Initialization of the posts
 */
+
+import initApp from './main.js';
+import prettyButton from './prettyButton.js';
 
 //Taken from: https://stackoverflow.com/a/4611809/8618678
 function toDateTime(secs) {
@@ -11,7 +13,7 @@ function toDateTime(secs) {
     return t.toLocaleString();
 }
 
-function updateField(feedList, res){
+function updateField(feedList, res) {
     for (var i = 0; i < Object.keys(res.posts).length; i++) {
         var li = document.createElement("li");
         li.setAttribute("class", "post");
@@ -167,17 +169,61 @@ function initializePosts(apiUrl) {
     emptyFeed.innerText = "There seems to be nothing here!";
     emptyFeedLi.appendChild(emptyFeed);
 
+
+
+
     if (sessionStorage.getItem('username')) {
         document.getElementById("signupBtn").style.visibility = "hidden";
         document.getElementById("loginBtn").style.visibility = "hidden";
-        const usertext = document.createElement("label");
+        const usertext = document.createElement("button");
+        usertext.setAttribute("class", "button button-link");
         usertext.innerText = "Hi " + sessionStorage.getItem('username') + "!";
-        usertext.style.fontSize = "15px";
+        usertext.style.backgroundColor = "white";
+        usertext.style.border = "none";
+
         const ulItem = document.createElement("li");
         ulItem.setAttribute("class", "nav-item");
+        ulItem.setAttribute("id", "userText");
         ulItem.appendChild(usertext);
+
+        const ulItem1 = document.createElement("li");
+        ulItem1.setAttribute("class", "nav-item");
+        ulItem1.setAttribute("id", "signOutText");
+
+        const signOutBtn = document.createElement("button");
+        signOutBtn.setAttribute("id", "signOutBtn");
+        signOutBtn.setAttribute("class", "button button-primary");
+        signOutBtn.innerHTML = "Sign out";
+
+        ulItem1.appendChild(signOutBtn);
+
         const list = document.getElementById("buttonList");
         list.appendChild(ulItem);
+        list.appendChild(ulItem1);
+
+        prettyButton(signOutBtn);
+
+        usertext.addEventListener('mouseenter', e => {
+            usertext.style.color = "blue";
+            usertext.style.textDecoration = "underline";
+        });
+
+        usertext.addEventListener('mouseleave', e => {
+            usertext.style.color = "black";
+            usertext.style.textDecoration = "none";
+        });
+
+        signOutBtn.addEventListener('click', e => {
+            sessionStorage.clear();
+            alert("We're sorry to see you go! Hope to see you again soon!");
+            
+            var temp = list.firstChild;
+            while (temp){
+                list.removeChild(temp);
+                temp = list.firstChild;
+            }
+            initApp(apiUrl);
+        });
     }
 
     feedHeader.appendChild(feedTitle);
@@ -189,13 +235,13 @@ function initializePosts(apiUrl) {
                 'accept': 'application/json',
                 'Authorization': "Token " + sessionStorage.getItem("token")
             }
-        }).then(result => result.json()).then(function(res){
+        }).then(result => result.json()).then(function (res) {
             feedTitle.innerText = "Your personalized feed";
-            if(res.posts.length === 0){
+            if (res.posts.length === 0) {
                 feedList.appendChild(emptyFeedLi);
-            }else{
+            } else {
                 var child = feedList.firstChild;
-                while (feedList.firstChild){
+                while (feedList.firstChild) {
                     feedList.remove(child);
                     child = feedList.firstChild;
                 }
@@ -208,12 +254,12 @@ function initializePosts(apiUrl) {
             headers: {
                 'accept': 'application/json'
             }
-        }).then(result => result.json()).then(function(res){
+        }).then(result => result.json()).then(function (res) {
             feedTitle.innerText = "Most recent posts";
             updateField(feedList, res);
         });
     }
-    
+
     main.appendChild(feedListDiv);
 }
 

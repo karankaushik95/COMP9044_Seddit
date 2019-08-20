@@ -3,15 +3,9 @@
 Sets up the initial UI
 */
 
-function initializeUI() {
-    const root = document.getElementById("root");
-    // Comment this bit out before submitting
-    
-    var child = root.lastElementChild;
-    while (child) {
-        root.removeChild(child);
-        child = root.lastElementChild;
-    }
+import prettyButton from './prettyButton.js';
+
+export function initializeHeader(root) {
 
     const header = document.createElement("header");
     header.setAttribute("id", "nav");
@@ -45,25 +39,45 @@ function initializeUI() {
     signupBtn.innerHTML = "Sign up";
     ulItem2.appendChild(signupBtn);
 
+    prettyButton(signupBtn);
+    prettyButton(loginBtn);
+
     buttonList.appendChild(ulItem1);
     buttonList.appendChild(ulItem2);
 
-    const main = document.createElement("main");
-    main.setAttribute("role", "main");
-    main.setAttribute("id", "main");
+    header.appendChild(logo);
+    header.appendChild(buttonList);
 
+    root.appendChild(header);
+}
+
+function initializeFooter(root){
     const footer = document.createElement("footer");
     const text = document.createElement("p");
     text.innerText = "Seddit brought to you by: COMP(2041|9044)\u2122 All rights reserved \u00A9 \u00AE";
     footer.appendChild(text);
 
-    header.appendChild(logo);
-    header.appendChild(buttonList);
-    
-    root.appendChild(header);
-    root.appendChild(main);
     root.appendChild(footer);
+}
 
+function initializeUI() {
+    const root = document.getElementById("root");
+    // Comment this bit out before submitting
+    
+    var child = root.lastElementChild;
+    while (child) {
+        root.removeChild(child);
+        child = root.lastElementChild;
+    }
+
+    initializeHeader(root);
+
+    const main = document.createElement("main");
+    main.setAttribute("role", "main");
+    main.setAttribute("id", "main");
+    
+    root.appendChild(main);
+    initializeFooter(root);
 }
 
 export default initializeUI;

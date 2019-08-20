@@ -5,7 +5,7 @@ Login button eventlistener
 import initializePosts from './initPosts.js';
 
 function loginBtnListener(apiUrl){
-    //console.log(apiUrl);
+    
     const loginBtn = document.getElementById("loginBtn");
     loginBtn.addEventListener("click", ()=>{
 
@@ -17,8 +17,6 @@ function loginBtnListener(apiUrl){
         }
         
         var form = document.createElement("form");
-        //form.setAttribute("method", "post");
-        //f.setAttribute("action", "help");
         
         const div = document.createElement("div");
         div.setAttribute("class", "container");
