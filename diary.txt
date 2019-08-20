@@ -3,3 +3,4 @@
 12/08/19     22:00   02:00   Messed with backend, got it working and looking to finish subset 1 soon
 13/08/19     23:00   23:45   Finished up login and registration, need to beautify feed         
 16/08/19     23:00   23:45   Finished subset 1
+20/08/19     20:00   21:00   Prettified things
