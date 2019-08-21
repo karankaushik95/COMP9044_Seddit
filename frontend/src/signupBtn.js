@@ -16,8 +16,6 @@ function signupBtnListener(apiUrl){
         }
         
         var form = document.createElement("form");
-        //form.setAttribute("method", "post");
-        //f.setAttribute("action", "help");
         
         const div = document.createElement("div");
         div.setAttribute("class", "container");
@@ -107,7 +105,7 @@ function signupBtnListener(apiUrl){
         cancelBtn.style.marginLeft = "60px";
         cancelBtn.addEventListener("click", event =>{
             event.preventDefault();
-            initializePosts();
+            initializePosts(apiUrl);
         });
 
         div.appendChild(header);

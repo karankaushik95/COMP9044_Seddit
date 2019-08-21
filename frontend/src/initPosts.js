@@ -3,7 +3,7 @@ Initialization of the posts
 */
 
 import initApp from './main.js';
-import prettyButton from './prettyButton.js';
+import viewProfile from './profile.js';
 
 //Taken from: https://stackoverflow.com/a/4611809/8618678
 function toDateTime(secs) {
@@ -61,7 +61,6 @@ function updateField(feedList, res) {
 
         var bottomRowList = document.createElement("ul");
         bottomRowList.setAttribute("class", "flat-list");
-        //bottomRowList.style.display = "inline";
         bottomRowList.style.zoom = 1;
         bottomRowList.style.listStyleType = "none";
         bottomRowList.style.margin = 0;
@@ -175,16 +174,27 @@ function initializePosts(apiUrl) {
     if (sessionStorage.getItem('username')) {
         document.getElementById("signupBtn").style.visibility = "hidden";
         document.getElementById("loginBtn").style.visibility = "hidden";
-        const usertext = document.createElement("button");
-        usertext.setAttribute("class", "button button-link");
-        usertext.innerText = "Hi " + sessionStorage.getItem('username') + "!";
-        usertext.style.backgroundColor = "white";
-        usertext.style.border = "none";
+        const userText = document.createElement("button");
+        userText.setAttribute("class", "button button-link");
+        userText.innerText = "Hi " + sessionStorage.getItem('username') + "!";
+        userText.style.backgroundColor = "white";
+        userText.style.border = "none";
+        userText.style.textTransform = "inherit";
+        userText.setAttribute("data-toggle","modal");
+        
+        userText.addEventListener('click', function(event){
+            // Had to do it this way otherwise it was just triggering on load which is not fun
+            event.preventDefault();
+            viewProfile(apiUrl);
+            userText.setAttribute("data-target",document.getElementById("profileModal"));
+        });
 
         const ulItem = document.createElement("li");
         ulItem.setAttribute("class", "nav-item");
         ulItem.setAttribute("id", "userText");
-        ulItem.appendChild(usertext);
+        ulItem.appendChild(userText);
+
+        
 
         const ulItem1 = document.createElement("li");
         ulItem1.setAttribute("class", "nav-item");
@@ -201,16 +211,16 @@ function initializePosts(apiUrl) {
         list.appendChild(ulItem);
         list.appendChild(ulItem1);
 
-        prettyButton(signOutBtn);
+        signOutBtn.classList.add('button');
 
-        usertext.addEventListener('mouseenter', e => {
-            usertext.style.color = "blue";
-            usertext.style.textDecoration = "underline";
+        userText.addEventListener('mouseenter', e => {
+            userText.style.color = "blue";
+            userText.style.textDecoration = "underline";
         });
 
-        usertext.addEventListener('mouseleave', e => {
-            usertext.style.color = "black";
-            usertext.style.textDecoration = "none";
+        userText.addEventListener('mouseleave', e => {
+            userText.style.color = "black";
+            userText.style.textDecoration = "none";
         });
 
         signOutBtn.addEventListener('click', e => {

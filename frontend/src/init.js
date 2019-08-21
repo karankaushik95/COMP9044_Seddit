@@ -3,7 +3,6 @@
 Sets up the initial UI
 */
 
-import prettyButton from './prettyButton.js';
 
 export function initializeHeader(root) {
 
@@ -27,7 +26,8 @@ export function initializeHeader(root) {
     loginBtn.setAttribute("class", "button button-primary");
     loginBtn.setAttribute("data-id-login", "");
     loginBtn.innerHTML = "Login";
-    
+    loginBtn.classList.add('button');
+
     ulItem1.appendChild(loginBtn);
 
     const ulItem2 = document.createElement("li");
@@ -37,10 +37,12 @@ export function initializeHeader(root) {
     signupBtn.setAttribute("class", "button button-primary");
     signupBtn.setAttribute("data-id-signup", "");
     signupBtn.innerHTML = "Sign up";
+    signupBtn.classList.add('button');
+
     ulItem2.appendChild(signupBtn);
 
-    prettyButton(signupBtn);
-    prettyButton(loginBtn);
+    // prettyButton(signupBtn);
+    // prettyButton(loginBtn);
 
     buttonList.appendChild(ulItem1);
     buttonList.appendChild(ulItem2);

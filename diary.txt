@@ -4,3 +4,4 @@
 13/08/19     23:00   23:45   Finished up login and registration, need to beautify feed         
 16/08/19     23:00   23:45   Finished subset 1
 20/08/19     20:00   21:00   Prettified things
+21/08/19     12:20   01:00   Moved to CSS files instead of brute-forcing JS. Sigh I forgot we could submit CSS files.    
