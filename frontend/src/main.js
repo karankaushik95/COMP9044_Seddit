@@ -14,6 +14,7 @@ import initializePosts from './initPosts.js';
 // different datasets.
 function initApp(apiUrl) {
   // your app initialisation goes here
+  console.log(apiUrl);
   initializeUI();
   loginBtnListener(apiUrl);
   signupBtnListener(apiUrl);

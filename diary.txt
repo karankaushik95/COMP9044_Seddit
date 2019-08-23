@@ -5,3 +5,4 @@
 16/08/19     23:00   23:45   Finished subset 1
 20/08/19     20:00   21:00   Prettified things
 21/08/19     12:20   01:00   Moved to CSS files instead of brute-forcing JS. Sigh I forgot we could submit CSS files.    
+24/08/19     12:00   03:00   Cleaned up UI and added a few things. Looking to finish subset 2 soon which shouldn't be a big deal.

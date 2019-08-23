@@ -1,0 +1,44 @@
+/* Modal Style */
+
+/* Background */
+.modal {
+    display: none;
+    position: fixed; 
+    z-index: 1; 
+    padding-top: 100px; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); 
+  }
+
+.modal-content {
+  background-image: url("https://img.freepik.com/free-vector/vibrant-pink-watercolor-painting-background_53876-58930.jpg?size=626&ext=jpg");
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+/* The Close Button */
+.close {
+  color: #070707;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.heading{
+  text-decoration: underline;
+  text-decoration-color: black;   
+  color: black; 
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}

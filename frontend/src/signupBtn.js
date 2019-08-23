@@ -7,7 +7,7 @@ import initializePosts from './initPosts.js';
 function signupBtnListener(apiUrl){
     const signupBtn = document.getElementById("signupBtn");
     signupBtn.addEventListener("click", ()=>{
-     
+        
         const body = document.getElementById("main");
         var element = body.lastChild;
         while(element){

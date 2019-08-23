@@ -87,11 +87,23 @@ footer {
 
 .button-primary {
   color: var(--reddit-blue);
+  transition-duration: 0.4s;
+}
+
+.button-primary:hover {
+  background-color: var(--reddit-blue);
+  color: white;
 }
 
 .button-secondary {
   background-color: var(--reddit-blue);
   color: white;
+  transition-duration: 0.4s;
+}
+
+.button-secondary:hover {
+  background-color: white;
+  color: var(--reddit-blue);
 }
 
 .banner > *,
@@ -112,9 +124,9 @@ footer > * {
 }
 
 #feed {
-  min-width: 500px;
-  max-width: 800px;
-  width: 80%;
+  min-width: 300px;
+  max-width: 500px;
+  width: 60%;
   margin: 20px auto;
   padding: 0;
 }
@@ -129,4 +141,18 @@ footer > * {
   margin: 0;
 }
 
-/* Add your styles here */
+.arrow-up{
+  border-right: 5px solid; 
+  border-bottom: 5px solid;
+  height: 13px;
+  width: 13px;
+  margin-block-start: 15px;
+  margin-inline-start: 10px;
+  transform: rotate(-135deg);
+}
+.upvoteText{
+  margin-block-start: 15px;
+  margin-inline-start: 10px;
+  font-size: 15px;
+  font-variant-numeric: lining-nums
+}

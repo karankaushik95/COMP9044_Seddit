@@ -13,7 +13,7 @@ export function initializeHeader(root) {
     const logo = document.createElement("h2");
     logo.setAttribute("id", "logo");
     logo.setAttribute("class", "flex-center");
-    logo.innerHTML = "Seddit";
+    logo.innerText = "Seddit";
 
     const buttonList = document.createElement("ul");
     buttonList.setAttribute("class", "nav");
@@ -25,8 +25,7 @@ export function initializeHeader(root) {
     loginBtn.setAttribute("id", "loginBtn");
     loginBtn.setAttribute("class", "button button-primary");
     loginBtn.setAttribute("data-id-login", "");
-    loginBtn.innerHTML = "Login";
-    loginBtn.classList.add('button');
+    loginBtn.innerText = "Login";
 
     ulItem1.appendChild(loginBtn);
 
@@ -36,13 +35,9 @@ export function initializeHeader(root) {
     signupBtn.setAttribute("id", "signupBtn");
     signupBtn.setAttribute("class", "button button-primary");
     signupBtn.setAttribute("data-id-signup", "");
-    signupBtn.innerHTML = "Sign up";
-    signupBtn.classList.add('button');
+    signupBtn.innerText = "Sign up";
 
     ulItem2.appendChild(signupBtn);
-
-    // prettyButton(signupBtn);
-    // prettyButton(loginBtn);
 
     buttonList.appendChild(ulItem1);
     buttonList.appendChild(ulItem2);
