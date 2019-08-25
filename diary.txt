@@ -1,8 +1,9 @@
-10/08/19     12:00   02:00   Started and finished Subset 0 (albeit doesn't look very pretty)
+10/08/19     00:00   02:00   Started and finished Subset 0 (albeit doesn't look very pretty)
 11/08/19     23:00   03:35   Beautified and finished subset 0
 12/08/19     22:00   02:00   Messed with backend, got it working and looking to finish subset 1 soon
 13/08/19     23:00   23:45   Finished up login and registration, need to beautify feed         
 16/08/19     23:00   23:45   Finished subset 1
 20/08/19     20:00   21:00   Prettified things
-21/08/19     12:20   01:00   Moved to CSS files instead of brute-forcing JS. Sigh I forgot we could submit CSS files.    
-24/08/19     12:00   03:00   Cleaned up UI and added a few things. Looking to finish subset 2 soon which shouldn't be a big deal.
+21/08/19     00:20   01:00   Moved to CSS files instead of brute-forcing JS. Sigh I forgot we could submit CSS files.    
+24/08/19     00:00   03:00   Cleaned up UI and added a few things. Looking to finish subset 2 soon which shouldn't be a big deal.
+25/08/19     11:00   02:00   Finished subset 2. Now doesn't look like my 1 year old niece made it.       

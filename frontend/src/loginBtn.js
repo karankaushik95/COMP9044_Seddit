@@ -4,20 +4,20 @@ Login button eventlistener
 
 import initializePosts from './initPosts.js';
 
-function loginBtnListener(apiUrl){
-    
+function loginBtnListener(apiUrl) {
+
     const loginBtn = document.getElementById("loginBtn");
-    loginBtn.addEventListener("click", ()=>{
+    loginBtn.addEventListener("click", () => {
 
         const body = document.getElementById("main");
         var element = body.lastChild;
-        while(element){
+        while (element) {
             body.removeChild(element);
             element = body.lastChild;
         }
-        
+
         var form = document.createElement("form");
-        
+
         const div = document.createElement("div");
         div.setAttribute("class", "container");
         div.setAttribute("align", "center");
@@ -27,7 +27,7 @@ function loginBtnListener(apiUrl){
 
         const paragraph = document.createElement("p");
         paragraph.innerText = "Please enter your credentials";
-        
+
         const hr = document.createElement("hr");
 
         const labelUserName = document.createElement("label");
@@ -39,8 +39,8 @@ function loginBtnListener(apiUrl){
         labelUserName.style.paddingBottom = "10px";
 
         var username = document.createElement("input"); //input element, text
-        username.setAttribute('type',"text");
-        username.setAttribute('name',"username");
+        username.setAttribute('type', "text");
+        username.setAttribute('name', "username");
         username.setAttribute("placeholder", "Enter Username");
         username.style.paddingTop = "10px";
         username.style.paddingBottom = "10px";
@@ -54,21 +54,21 @@ function loginBtnListener(apiUrl){
         labelPwd.style.paddingTop = "10px";
 
         var password = document.createElement("input"); //input element, text
-        password.setAttribute('type',"password");
-        password.setAttribute('name',"username");
+        password.setAttribute('type', "password");
+        password.setAttribute('name', "username");
         password.setAttribute("placeholder", "Enter Password");
         password.style.paddingTop = "10px";
         password.style.paddingBottom = "10px";
 
         var submitBtn = document.createElement("input"); //input element, Submit button
-        submitBtn.setAttribute('type',"submit");
-        submitBtn.setAttribute('value',"Login");
+        submitBtn.setAttribute('type', "submit");
+        submitBtn.setAttribute('value', "Login");
         submitBtn.style.marginLeft = "30px";
 
-        var cancelBtn = document.createElement("button"); 
+        var cancelBtn = document.createElement("button");
         cancelBtn.innerText = "Cancel";
         cancelBtn.style.marginLeft = "60px";
-        cancelBtn.addEventListener("click", event =>{
+        cancelBtn.addEventListener("click", event => {
             event.preventDefault();
             initializePosts(apiUrl);
         });
@@ -93,50 +93,60 @@ function loginBtnListener(apiUrl){
         form.appendChild(div);
 
         body.appendChild(form);
-    
+
         form.addEventListener("submit", event => {
-            event.preventDefault();     
-            
-        
-            if (!username.value.trim()){
-                alert ("Please enter a username");
+            event.preventDefault();
+
+
+            if (!username.value.trim()) {
+                alert("Please enter a username");
                 username.style.borderColor = "red";
                 return;
-            }else{
+            } else {
                 username.style.borderColor = "black";
             }
-            
-            if (!password.value.trim()){
-                alert ("Please enter a password");
+
+            if (!password.value.trim()) {
+                alert("Please enter a password");
                 password.style.borderColor = "red";
                 return;
-            }else{
+            } else {
                 password.style.borderColor = "black";
             }
 
-            const data = {"username"  : username.value, "password" : password.value};
-            fetch(apiUrl + "/auth/login",{
-                method : 'POST',
+            const data = { "username": username.value, "password": password.value };
+            fetch(apiUrl + "/auth/login", {
+                method: 'POST',
                 body: JSON.stringify(data),
-                headers:{
-                    'Content-type' : 'application/json',
-                    'accept'    : 'application/json'
+                headers: {
+                    'Content-type': 'application/json',
+                    'accept': 'application/json'
                 }
-            }).then (res => res.json()).then( function(response){
-                if(!response.token){
+            }).then(res => res.json()).then(function (response) {
+                if (!response.token) {
                     alert("Invalid username or password! Please check your credentials");
-                }else{
+                } else {
                     alert("Welcome back " + username.value + "!");
                     sessionStorage.setItem('token', response.token);
                     sessionStorage.setItem('username', username.value);
-                    initializePosts(apiUrl);
+                    fetch(apiUrl + "/user/" + "?" + "username=" + username.value, {
+                        method: 'GET',
+                        headers: {
+                            'accept': 'application/json',
+                            'Authorization': 'Token ' + sessionStorage.getItem('token')
+                        }
+                    }).then(res => res.json()).then(function (response) {
+                        console.log(response);
+                        sessionStorage.setItem('id', response.id);
+                        initializePosts(apiUrl);
+                    });
                 }
             });
 
         });
-        
-    
-    
+
+
+
     });
 }
 
