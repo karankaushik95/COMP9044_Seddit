@@ -38,6 +38,12 @@ function commentListener(apiUrl, comments) {
     commentModalDiv.style.display = "block";
 
     const modalHeader = document.createElement("h3");
+    const subseddit = document.createElement("p");
+    subseddit.setAttribute("class", "subseddit");
+
+    const username = document.createElement("p");
+    username.setAttribute("class", "comment-author");
+
     fetch(apiUrl + "/post/?id=" + comments, {
         method: 'GET',
         headers: {
@@ -47,9 +53,21 @@ function commentListener(apiUrl, comments) {
     })
         .then(res => res.json())
         .then(function (response) {
-            console.log(response);
+            subseddit.innerText = "/s/"+ response.meta.subseddit;
             modalHeader.innerText = response.title;
+
+            username.innerText = "/u/" + response.meta.author;
+
             modalHeader.classList.add('postHeader');
+            commentContent.appendChild(subseddit);
+            commentContent.appendChild(username);
+            username.addEventListener('click', function(event){
+
+                event.preventDefault();
+                viewProfile(apiUrl, username.innerText.substring(3));
+                commentModalDiv.style.display ="none";
+            });
+
             commentContent.appendChild(modalHeader);
             if (response.thumbnail) {
                 const image = new Image(150, 150);

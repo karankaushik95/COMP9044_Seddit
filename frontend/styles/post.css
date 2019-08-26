@@ -108,3 +108,15 @@
 .upvote-author:hover {
   text-decoration: underline;
 }
+
+.profile-title {
+  padding-bottom: 10px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.profile-title:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--reddit-blue);
+  color: var(--reddit-blue);
+}
