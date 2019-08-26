@@ -56,7 +56,7 @@ function commentListener(apiUrl, comments) {
             subseddit.innerText = "/s/"+ response.meta.subseddit;
             modalHeader.innerText = response.title;
 
-            username.innerText = "/u/" + response.meta.author;
+            username.innerText = "/u/" + response.meta.author; 
 
             modalHeader.classList.add('postHeader');
             commentContent.appendChild(subseddit);

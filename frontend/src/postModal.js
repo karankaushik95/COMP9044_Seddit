@@ -143,16 +143,14 @@ function newPost(apiUrl) {
         var result;
         reader.onloadend = function () {
             result = reader.result;
-        }
-        if(imageUpload.value)
-            reader.readAsDataURL(imageUpload.files[0]);
-        if (result) {
+            result = result.split(',')[1];
             const data = {
                 'title': title.value.trim(),
                 'text': text.value.trim(),
                 'subseddit': subseddit.value.trim(),
                 'image': result
             };
+            //console.log(JSON.stringify(data));
             fetch(apiUrl + "/post/", {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -161,10 +159,13 @@ function newPost(apiUrl) {
                     'accept': 'application/json',
                     'Authorization': 'Token ' + sessionStorage.getItem('token')
                 }
-            }).then(res => res.json()).then(function(response){
+            }).then(res => res.json()).then(function (response) {
                 postModalDiv.style.display = "none";
                 initializePosts(apiUrl);
             });
+        }
+        if (imageUpload.value) {
+            result = reader.readAsDataURL(imageUpload.files[0]);
         } else {
             const data = {
                 'title': title.value.trim(),
@@ -179,12 +180,12 @@ function newPost(apiUrl) {
                     'accept': 'application/json',
                     'Authorization': 'Token ' + sessionStorage.getItem('token')
                 }
-            }).then(res => res.json()).then(function(response){
+            }).then(res => res.json()).then(function (response) {
                 postModalDiv.style.display = "none";
                 initializePosts(apiUrl);
             });
         }
-        
+
     });
 
 }

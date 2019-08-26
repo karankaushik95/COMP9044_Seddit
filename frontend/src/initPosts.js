@@ -257,6 +257,7 @@ function initializePosts(apiUrl) {
             userText.style.border = "none";
             userText.style.textTransform = "inherit";
             userText.setAttribute("data-toggle", "modal");
+            userText.style.cursor = "pointer";
 
             const ulItem = document.createElement("li");
             ulItem.setAttribute("class", "nav-item");
