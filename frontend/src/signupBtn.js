@@ -4,17 +4,18 @@ Signup button eventlistener
 
 import initializePosts from './initPosts.js';
 
+
 function signupBtnListener(apiUrl) {
     const signupBtn = document.getElementById("signupBtn");
     signupBtn.addEventListener("click", () => {
-
+        //  Could have done this as a modal, ran out of time. Just to clear the UI for the Login page
         const body = document.getElementById("main");
         var element = body.lastChild;
         while (element) {
             body.removeChild(element);
             element = body.lastChild;
         }
-
+        // Create a form and add a sign up form  to it
         var form = document.createElement("form");
 
         const div = document.createElement("div");
@@ -29,14 +30,15 @@ function signupBtnListener(apiUrl) {
 
         const paragraph = document.createElement("p");
         paragraph.innerText = "Please fill out the following form to join the best community on the internet!";
-        if(sessionStorage.getItem('unlogged') && !sessionStorage.getItem('token')){
-            subHeader.innerText = "To access that and all other features of Seddit, please create an account";
-        }
+        // Part of an unimplemented feature. Oh well
+        // if(sessionStorage.getItem('unlogged') && !sessionStorage.getItem('token')){
+        //     subHeader.innerText = "To access that and all other features of Seddit, please create an account";
+        // }
 
         const hr = document.createElement("hr");
 
         const labelUserName = document.createElement("label");
-        labelUserName.setAttribute("for", "email");
+        labelUserName.setAttribute("for", "username");
         labelUserName.innerText = "Username:";
         labelUserName.style.fontStyle = "Strong";
         labelUserName.style.paddingRight = "5px";
@@ -51,7 +53,7 @@ function signupBtnListener(apiUrl) {
         username.style.paddingBottom = "10px";
 
         const labelName = document.createElement("label");
-        labelName.setAttribute("for", "email");
+        labelName.setAttribute("for", "Name");
         labelName.innerText = "Name:";
         labelName.style.fontStyle = "Strong";
         labelName.style.paddingRight = "5px";
@@ -61,13 +63,13 @@ function signupBtnListener(apiUrl) {
 
         var name = document.createElement("input"); //input element, text
         name.setAttribute('type', "text");
-        name.setAttribute('name', "username");
+        name.setAttribute('name', "Name");
         name.setAttribute("placeholder", "Enter your name");
         name.style.paddingTop = "10px";
         name.style.paddingBottom = "10px";
 
         const labelPwd = document.createElement("label");
-        labelPwd.setAttribute("for", "email");
+        labelPwd.setAttribute("for", "password");
         labelPwd.innerText = "Password:";
         labelPwd.style.fontStyle = "Strong";
         labelPwd.style.paddingRight = "9px";
@@ -76,7 +78,7 @@ function signupBtnListener(apiUrl) {
 
         var password = document.createElement("input"); //input element, text
         password.setAttribute('type', "password");
-        password.setAttribute('name', "username");
+        password.setAttribute('name', "password");
         password.setAttribute("placeholder", "Enter Password");
         password.style.paddingTop = "10px";
         password.style.paddingBottom = "10px";
@@ -111,6 +113,8 @@ function signupBtnListener(apiUrl) {
             initializePosts(apiUrl);
         });
 
+        // Append everything to the page
+
         div.appendChild(header);
         div.appendChild(subHeader);
         div.appendChild(paragraph);
@@ -143,7 +147,7 @@ function signupBtnListener(apiUrl) {
 
         form.addEventListener("submit", event => {
             event.preventDefault();
-
+            // Check if the form has valid inputs
             if (!email.value.trim()) {
                 alert("Please enter your email");
                 email.style.borderColor = "red";
@@ -182,7 +186,7 @@ function signupBtnListener(apiUrl) {
             } else {
                 password.style.borderColor = "black";
             }
-
+            // Communicate with the backend to register/give an error to the user
             const data = { "username": username.value, "password": password.value, "email": email.value, "name": name.value };
             fetch(apiUrl + "/auth/signup", {
                 method: 'POST',
@@ -192,12 +196,13 @@ function signupBtnListener(apiUrl) {
                     'accept': 'application/json'
                 }
             }).then(res => res.json()).then(function (response) {
-                console.log(response);
                 if (!response.token) {
+                    // Sorry user, 500$ and I'll delete the other user
                     alert("Username is already taken, please pick another!");
                     username.style.borderColor = "red";
                     return;
                 } else {
+                    // Ayy you'll love it here. You can never leave
                     alert("Welcome to Seddit " + username.value + "!");
                     sessionStorage.setItem('token', response.token);
                     sessionStorage.setItem('username', username.value);

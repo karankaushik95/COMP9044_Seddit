@@ -1,9 +1,11 @@
 import viewProfile from './profile.js';
 
+// Shows a list of upvoters of a post
+
 function upvoteListener(apiUrl, upvotes) {
 
     if (!sessionStorage.getItem('token')) {
-        
+
         alert("This feature is only available to members of Seddit! Make an account today");
         return;
     }
@@ -81,14 +83,14 @@ function upvoteListener(apiUrl, upvotes) {
             });
 
         });
-        userList.addEventListener('click', function(event){
-            if (event.target.className === "upvote-author") {
-                var listenerAuthor = event.target.innerText;
-                listenerAuthor = listenerAuthor.substring(3);
-                viewProfile(apiUrl, listenerAuthor);
-            }
+    userList.addEventListener('click', function (event) {
+        if (event.target.className === "upvote-author") {
+            var listenerAuthor = event.target.innerText;
+            listenerAuthor = listenerAuthor.substring(3);
+            viewProfile(apiUrl, listenerAuthor);
+        }
 
-        });
+    });
 }
 
 export default upvoteListener;

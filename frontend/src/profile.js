@@ -1,5 +1,6 @@
 import commentListener from './commentModal.js';
 
+// Copied it because importing it was causing some issues that I did not feel like debugging
 function toDateTime(secs) {
 
     var t = new Date(1970, 0, 1); // Epoch
@@ -8,6 +9,8 @@ function toDateTime(secs) {
     return t.toLocaleString('en-GB', options);
 }
 
+
+// Open the modal to view the user's profile
 function viewProfile(apiUrl, username) {
     if (!sessionStorage.getItem('token')) {
         alert("This feature is only available to members of Seddit! Make an account today");
@@ -80,7 +83,7 @@ function viewProfile(apiUrl, username) {
 
     profileModalDiv.style.display = "block";
 }
-
+// Edit profile details navBar function
 function editProfile(apiUrl, username, profileContent, profileModalDiv) {
 
     const editDiv = document.createElement("div");
@@ -101,7 +104,6 @@ function editProfile(apiUrl, username, profileContent, profileModalDiv) {
 
     const labelUsername = document.createElement("label");
     labelUsername.innerText = "Username:";
-    //console.log(username);
     var usernameInput = document.createElement("input");
     usernameInput.style.width = "30%";
     usernameInput.setAttribute('type', "text");
@@ -205,7 +207,7 @@ function editProfile(apiUrl, username, profileContent, profileModalDiv) {
 
 }
 
-
+// Regular profile view
 function profileView(apiUrl, username, profileContent, profileModalDiv) {
 
     const statsDiv = document.createElement("div");
@@ -249,7 +251,6 @@ function profileView(apiUrl, username, profileContent, profileModalDiv) {
         if (!response.username) {
             alert("Something went wrong!");
         } else {
-            console.log(response);
             const fullName = document.createElement("p");
             const email = document.createElement("p");
             fullName.innerText = "Name: " + response.name;
@@ -262,7 +263,6 @@ function profileView(apiUrl, username, profileContent, profileModalDiv) {
                 }
             }).then(result => result.json()).then(function (responses) {
                 if (responses.following.includes(response.id)) {
-                    console.log("following");
                     followButton.classList.remove("follow");
                     followButton.classList.add("following");
                     followButton.innerText = "Following";
@@ -293,7 +293,6 @@ function profileView(apiUrl, username, profileContent, profileModalDiv) {
         )).then(response => {
             for (var i = 0; i < Object.keys(response).length; i++) {
                 upvotes += response[i].meta.upvotes.length;
-                console.log(response);
                 var li = document.createElement("li");
                 li.setAttribute("class", "post");
                 li.setAttribute("data-id-post", "");
@@ -601,16 +600,16 @@ function editPost(apiUrl, postId, username) {
 
     submitBtn.addEventListener('click', function (event) {
         event.preventDefault();
-        if (! (title.value.trim() || text.value.trim() ||  imageUpload.value) ) {
+        if (!(title.value.trim() || text.value.trim() || imageUpload.value)) {
             alert("At least one of the parameters must be provided");
             return;
-        } 
+        }
         var body = {};
 
-        if(title.value.trim()){
+        if (title.value.trim()) {
             body["title"] = title.value.trim();
         }
-        if(text.value.trim()){
+        if (text.value.trim()) {
             body["text"] = text.value.trim();
         }
 

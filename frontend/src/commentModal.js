@@ -9,6 +9,8 @@ function toDateTime(secs) {
     return t.toLocaleString('en-GB', options);
 }
 
+// Modal to add a comment to a post
+
 function commentListener(apiUrl, comments) {
 
     if (!sessionStorage.getItem('token')) {
@@ -53,19 +55,19 @@ function commentListener(apiUrl, comments) {
     })
         .then(res => res.json())
         .then(function (response) {
-            subseddit.innerText = "/s/"+ response.meta.subseddit;
+            subseddit.innerText = "/s/" + response.meta.subseddit;
             modalHeader.innerText = response.title;
 
-            username.innerText = "/u/" + response.meta.author; 
+            username.innerText = "/u/" + response.meta.author;
 
             modalHeader.classList.add('postHeader');
             commentContent.appendChild(subseddit);
             commentContent.appendChild(username);
-            username.addEventListener('click', function(event){
+            username.addEventListener('click', function (event) {
 
                 event.preventDefault();
                 viewProfile(apiUrl, username.innerText.substring(3));
-                commentModalDiv.style.display ="none";
+                commentModalDiv.style.display = "none";
             });
 
             commentContent.appendChild(modalHeader);
@@ -123,7 +125,8 @@ function commentListener(apiUrl, comments) {
             const list = document.createElement("ul");
             list.setAttribute("id", "commentFeed");
             var commentsArray = response.comments;
-            commentsArray.sort(function(a,b){return b.published-a.published});
+            // Reverse chronological sort
+            commentsArray.sort(function (a, b) { return b.published - a.published });
             for (var i = 0; i < commentsArray.length; i++) {
                 var li = document.createElement("li");
                 li.setAttribute("class", "comment-post");

@@ -1,3 +1,9 @@
+/*
+
+A Lot of more css, based on some of what was given and made new styles as well
+
+*/
+
 .post {
   display: flex;
   overflow: hidden;
@@ -79,7 +85,7 @@
   color: var(--reddit-blue);
   cursor: pointer;
   transition-duration: 0s;
-  display:inline-block;
+  display: inline-block;
 }
 
 .comment-author:hover {
@@ -87,7 +93,6 @@
 }
 
 .comment-post {
-  
   display: block;
   overflow: hidden;
   margin: 20px 0;
@@ -102,7 +107,7 @@
   color: var(--reddit-blue);
   cursor: pointer;
   transition-duration: 0s;
-  display:block;
+  display: block;
 }
 
 .upvote-author:hover {

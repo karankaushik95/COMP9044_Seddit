@@ -3,7 +3,7 @@
 Sets up the initial UI
 */
 
-
+// Initializes the header part of the page. Still don't know why I separated it
 export function initializeHeader(root) {
 
     const header = document.createElement("header");
@@ -47,7 +47,7 @@ export function initializeHeader(root) {
 
     root.appendChild(header);
 }
-
+// Initializes the footer part of the page
 function initializeFooter(root){
     const footer = document.createElement("footer");
     const text = document.createElement("p");
@@ -57,15 +57,16 @@ function initializeFooter(root){
     root.appendChild(footer);
 }
 
+// Because Everything has to get together somewhere!
 function initializeUI() {
     const root = document.getElementById("root");
     // Comment this bit out before submitting
     
-    var child = root.lastElementChild;
-    while (child) {
-        root.removeChild(child);
-        child = root.lastElementChild;
-    }
+    // var child = root.lastElementChild;
+    // while (child) {
+    //     root.removeChild(child);
+    //     child = root.lastElementChild;
+    // }
 
     initializeHeader(root);
 

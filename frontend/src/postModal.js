@@ -1,5 +1,7 @@
 import initializePosts from './initPosts.js';
 
+// Make a new post 
+
 function newPost(apiUrl) {
 
     const postModalDiv = document.createElement("div");
@@ -116,6 +118,9 @@ function newPost(apiUrl) {
 
     submitBtn.addEventListener('click', function (event) {
         event.preventDefault();
+       
+        // Check for valid input
+
         if (!title.value.trim()) {
             alert("Title cannot be empty");
             title.focus();
@@ -138,7 +143,7 @@ function newPost(apiUrl) {
         } else {
             subseddit.style.border = "black";
         }
-
+        // Convert file to base64
         var reader = new FileReader();
         var result;
         reader.onloadend = function () {

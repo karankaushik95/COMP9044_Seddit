@@ -8,7 +8,7 @@ function loginBtnListener(apiUrl) {
 
     const loginBtn = document.getElementById("loginBtn");
     loginBtn.addEventListener("click", () => {
-
+        // Clear the UI
         const body = document.getElementById("main");
         var element = body.lastChild;
         while (element) {
@@ -31,7 +31,7 @@ function loginBtnListener(apiUrl) {
         const hr = document.createElement("hr");
 
         const labelUserName = document.createElement("label");
-        labelUserName.setAttribute("for", "email");
+        labelUserName.setAttribute("for", "username");
         labelUserName.innerText = "Username:";
         labelUserName.style.fontStyle = "Strong";
         labelUserName.style.paddingRight = "5px";
@@ -46,7 +46,7 @@ function loginBtnListener(apiUrl) {
         username.style.paddingBottom = "10px";
 
         const labelPwd = document.createElement("label");
-        labelPwd.setAttribute("for", "email");
+        labelPwd.setAttribute("for", "password");
         labelPwd.innerText = "Password:";
         labelPwd.style.fontStyle = "Strong";
         labelPwd.style.paddingRight = "9px";
@@ -96,7 +96,7 @@ function loginBtnListener(apiUrl) {
 
         form.addEventListener("submit", event => {
             event.preventDefault();
-
+            // Check for valid input
 
             if (!username.value.trim()) {
                 alert("Please enter a username");
@@ -124,6 +124,7 @@ function loginBtnListener(apiUrl) {
                 }
             }).then(res => res.json()).then(function (response) {
                 if (!response.token) {
+                    // Tried to pull a sneaky on me with those invalid credentials eh?
                     alert("Invalid username or password! Please check your credentials");
                 } else {
                     alert("Welcome back " + username.value + "!");
@@ -136,7 +137,6 @@ function loginBtnListener(apiUrl) {
                             'Authorization': 'Token ' + sessionStorage.getItem('token')
                         }
                     }).then(res => res.json()).then(function (response) {
-                        console.log(response);
                         sessionStorage.setItem('id', response.id);
                         initializePosts(apiUrl);
                     });

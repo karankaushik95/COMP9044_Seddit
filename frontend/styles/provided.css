@@ -1,5 +1,10 @@
 /* base styles, feel free to edit */
 
+/* Edited, thanks 
+
+  Added lots of different styles here and in post.css
+*/
+
 :root {
   --reddit-blue: #0079D3;
   --reddit-orange: #FF5700;
@@ -161,7 +166,7 @@ footer {
   margin-right: 5px;
 }
 
-.upvoteText:hover{
+.upvoteText:hover {
   text-decoration: underline;
 }
 

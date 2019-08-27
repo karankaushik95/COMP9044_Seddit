@@ -8,16 +8,17 @@ import commentListener from './commentModal.js';
 import upvoteListener from './upvoteModal.js';
 import newPost from './postModal.js';
 
-//Taken from: https://stackoverflow.com/a/4611809/8618678
+//Taken from: https://stackoverflow.com/a/4611809/8618678 and modified for CS2041 by Karan Kaushik
 function toDateTime(secs) {
 
     var t = new Date(1970, 0, 1); // Epoch
     var options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: 'true' };
     t.setSeconds(secs);
-    return t.toLocaleString('en-GB', options);
+    return t.toLocaleString('en-GB', options); // Would you like some Tea and Crumpets?
 }
 
 function updateField(feedList, sortable, apiUrl) {
+    // Takes the response, makes it pretty and shows it on the feed list
 
     for (var i = 0; i < sortable.length; i++) {
 
@@ -28,7 +29,6 @@ function updateField(feedList, sortable, apiUrl) {
         const upvoteDiv = document.createElement("div");
         upvoteDiv.setAttribute("class", "vote");
         upvoteDiv.setAttribute("data-id-upvotes", "");
-        //console.log(sortable[i].id);
 
         const upvotes = sortable[i].meta.upvotes.length;
         const upArrow = document.createElement("div");
@@ -41,7 +41,6 @@ function updateField(feedList, sortable, apiUrl) {
                 upArrow.style.borderColor = "orange";
             }
         }
-
 
         const upvoteText = document.createElement("p");
         upvoteText.setAttribute("class", "upvoteText" + sortable[i].id);
@@ -60,9 +59,9 @@ function updateField(feedList, sortable, apiUrl) {
         contentDiv.setAttribute("class", "flex-container");
         contentDiv.style.display = "flex";
         contentDiv.style.width = "100%";
-        // contentDiv.style.flexWrap = "wrap";
+        
         contentDiv.style.flexDirection = "column";
-        //contentDiv.style.justifyContent = "flex-end";
+        
 
         const topRow = document.createElement("div");
         topRow.setAttribute("id", "topRow");
@@ -139,11 +138,10 @@ function updateField(feedList, sortable, apiUrl) {
         feedList.appendChild(li);
 
     }
-
+    // Use event delegation to properly set up event listeners for everything that is clickable in the feed
     feedList.addEventListener('click', function (event) {
         event.preventDefault();
         if (event.target.className === "post-author") {
-            //console.log();
             var username = event.target.innerText.substring(15);
             viewProfile(apiUrl, username);
         } else if (event.target.className.includes("comment")) {
@@ -190,7 +188,7 @@ function updateField(feedList, sortable, apiUrl) {
 }
 
 function initializePosts(apiUrl) {
-
+    // Initialize posts with either the public feed or the specific user feed
     const main = document.getElementById("main");
     var element = main.lastChild;
     while (element) {
@@ -241,6 +239,7 @@ function initializePosts(apiUrl) {
     feedList.appendChild(feedHeader);
 
     if (sessionStorage.getItem('username')) {
+        // Hide the login and signup buttons if the user is already logged in
         document.getElementById("signupBtn").style.visibility = "hidden";
         document.getElementById("loginBtn").style.visibility = "hidden";
         if (!document.getElementById("user_exists")) {
@@ -285,7 +284,7 @@ function initializePosts(apiUrl) {
             list.appendChild(searchLi);
             list.appendChild(ulItem);
             list.appendChild(ulItem1);
-
+            // Just some code to make it pretty. Weird flex but ok
             userText.addEventListener('click', function (event) {
                 // Had to do it this way otherwise it was just triggering on load which is not fun
                 event.preventDefault();
@@ -317,7 +316,7 @@ function initializePosts(apiUrl) {
         }
     }
     if (sessionStorage.getItem("token")) {
-
+        // Users personal feed or public feed choice
         fetch(apiUrl + "/user/feed", {
             method: 'GET',
             headers: {
@@ -329,6 +328,7 @@ function initializePosts(apiUrl) {
             if (res.posts.length === 0) {
                 feedList.appendChild(emptyFeedLi);
             } else {
+                // Sort the result based on timestamp
                 var sortable = Object.values(res);
                 sortable.sort(function (a, b) {
                     return b.meta.published - a.meta.published;
@@ -337,16 +337,30 @@ function initializePosts(apiUrl) {
                 updateField(feedList, sortable.slice(0, 4), apiUrl);
                 var nextPost = 4;
                 var lastY = 0;
-                search.onsearch = function () {
+                search.addEventListener('search', function () {
+                    console.log("search");
                     if (search.value.trim())
                         searchPosts(feedList, sortable, apiUrl, search.value.trim());
                     else {
                         initializePosts(apiUrl);
                     }
-                }
+                });
+                //Had to add the following listener cause CSE Firefox wasn't detecting enter on search? I don't know
+                // Search functionality
+                search.addEventListener('keyup', function (event) {
+
+                    if (event.keyCode === 13) { //Enter Key
+                        if (search.value.trim())
+                            searchPosts(feedList, sortable, apiUrl, search.value.trim());
+                        else {
+                            initializePosts(apiUrl);
+                        }
+                    }
+                });
+                // INFINITE SCROLL!
                 document.addEventListener('scroll', function (event) {
                     if (document.documentElement.scrollTop >= (lastY + 100)) {
-                        scrollLoad(feedList, sortable, apiUrl, nextPost, lastY);
+                        scrollLoad(feedList, sortable, apiUrl, nextPost);
                         nextPost += 1;
                         lastY += 100;
                     }
@@ -367,18 +381,11 @@ function initializePosts(apiUrl) {
             });
             sortable = sortable[0];
             updateField(feedList, sortable.slice(0, 4), apiUrl);
-            search.onsearch = function () {
-                if (search.value.trim())
-                    searchPosts(feedList, sortable, apiUrl, search.value.trim());
-                else {
-                    initializePosts(apiUrl);
-                }
-            }
             var nextPost = 4;
             var lastY = 0;
             document.addEventListener('scroll', function (event) {
                 if (document.documentElement.scrollTop >= (lastY + 100)) {
-                    scrollLoad(feedList, sortable, apiUrl, nextPost, lastY);
+                    scrollLoad(feedList, sortable, apiUrl, nextPost);
                     nextPost += 1;
                     lastY += 100;
                 }
@@ -389,7 +396,7 @@ function initializePosts(apiUrl) {
     main.appendChild(feedList);
 }
 
-function scrollLoad(feedList, sortable, apiUrl, nextPost, lastPos) {
+function scrollLoad(feedList, sortable, apiUrl, nextPost) {
     updateField(feedList, sortable.slice(nextPost, nextPost + 1), apiUrl);
 }
 
@@ -397,15 +404,16 @@ function searchPosts(feedList, sortable, apiUrl, searchTerm) {
     while (feedList.lastChild.className === "post") {
         feedList.removeChild(feedList.lastChild);
     }
+    const child = feedList.firstChild;
+    child.firstChild.innerText = "Search results";
+    child.lastChild.style.visibility = "hidden";
     var newSortable = [];
     for (var i = 0; i < sortable.length; i++) {
-        if (sortable[i].text.includes(searchTerm) || sortable[i].title.includes(searchTerm))
+        if (sortable[i].text.toLowerCase().includes(searchTerm.toLowerCase()) || sortable[i].title.toLowerCase().includes(searchTerm.toLowerCase()))
             newSortable.push(sortable[i]);
     }
 
     updateField(feedList, newSortable, apiUrl);
-
-
 }
 
 export default initializePosts;
