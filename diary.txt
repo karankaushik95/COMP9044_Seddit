@@ -10,3 +10,4 @@
 26/08/19     08:30   10:00   Finished bits and pieces of subset 3. Forgot to commit cause I was running late for work!
 26/08/19     22:30   03:00   Almost done with subset 3. Might not do search cause ceebs.
 27/08/19     18:00   18:50   Infinite Scroll finished
+27/08/19     18:55   19:20   Search finished. Adding final comments before last commit

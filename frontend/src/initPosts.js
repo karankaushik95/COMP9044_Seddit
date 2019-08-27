@@ -244,6 +244,17 @@ function initializePosts(apiUrl) {
         document.getElementById("signupBtn").style.visibility = "hidden";
         document.getElementById("loginBtn").style.visibility = "hidden";
         if (!document.getElementById("user_exists")) {
+
+            const searchLi = document.createElement("li");
+            searchLi.setAttribute("class", "nav-item");
+
+            const search = document.createElement("input");
+            search.setAttribute("id", "search");
+            search.setAttribute("data-id-search", "");
+            search.setAttribute("placeholder", "Search Seddit");
+            search.setAttribute("type", "search");
+            searchLi.appendChild(search);
+
             const userText = document.createElement("button");
             userText.setAttribute("class", "button button-link");
             userText.setAttribute("id", "user_exists");
@@ -271,6 +282,7 @@ function initializePosts(apiUrl) {
             ulItem1.appendChild(signOutBtn);
 
             const list = document.getElementById("buttonList");
+            list.appendChild(searchLi);
             list.appendChild(ulItem);
             list.appendChild(ulItem1);
 
@@ -325,8 +337,14 @@ function initializePosts(apiUrl) {
                 updateField(feedList, sortable.slice(0, 4), apiUrl);
                 var nextPost = 4;
                 var lastY = 0;
+                search.onsearch = function () {
+                    if (search.value.trim())
+                        searchPosts(feedList, sortable, apiUrl, search.value.trim());
+                    else {
+                        initializePosts(apiUrl);
+                    }
+                }
                 document.addEventListener('scroll', function (event) {
-                    console.log(document.documentElement.scrollTop);
                     if (document.documentElement.scrollTop >= (lastY + 100)) {
                         scrollLoad(feedList, sortable, apiUrl, nextPost, lastY);
                         nextPost += 1;
@@ -348,11 +366,17 @@ function initializePosts(apiUrl) {
                 return b.meta.published - a.meta.published;
             });
             sortable = sortable[0];
-            updateField(feedList, sortable, apiUrl);
+            updateField(feedList, sortable.slice(0, 4), apiUrl);
+            search.onsearch = function () {
+                if (search.value.trim())
+                    searchPosts(feedList, sortable, apiUrl, search.value.trim());
+                else {
+                    initializePosts(apiUrl);
+                }
+            }
             var nextPost = 4;
             var lastY = 0;
             document.addEventListener('scroll', function (event) {
-                console.log(document.documentElement.scrollTop);
                 if (document.documentElement.scrollTop >= (lastY + 100)) {
                     scrollLoad(feedList, sortable, apiUrl, nextPost, lastY);
                     nextPost += 1;
@@ -369,7 +393,19 @@ function scrollLoad(feedList, sortable, apiUrl, nextPost, lastPos) {
     updateField(feedList, sortable.slice(nextPost, nextPost + 1), apiUrl);
 }
 
-//document.addEventListener('scroll', scrollLoad());
+function searchPosts(feedList, sortable, apiUrl, searchTerm) {
+    while (feedList.lastChild.className === "post") {
+        feedList.removeChild(feedList.lastChild);
+    }
+    var newSortable = [];
+    for (var i = 0; i < sortable.length; i++) {
+        if (sortable[i].text.includes(searchTerm) || sortable[i].title.includes(searchTerm))
+            newSortable.push(sortable[i]);
+    }
 
+    updateField(feedList, newSortable, apiUrl);
+
+
+}
 
 export default initializePosts;
