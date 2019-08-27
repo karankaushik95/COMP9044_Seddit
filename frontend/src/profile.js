@@ -6,7 +6,7 @@ function toDateTime(secs) {
     var t = new Date(1970, 0, 1); // Epoch
     var options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: 'true' };
     t.setSeconds(secs);
-    return t.toLocaleString('en-GB', options);
+    return t.toLocaleString('en-AU', options);
 }
 
 
@@ -391,7 +391,7 @@ function profileView(apiUrl, username, profileContent, profileModalDiv) {
                 }
 
                 li.appendChild(contentDiv);
-                posts.appendChild(li);
+                posts.insertBefore(li, posts.firstChild);
             }
             return upvotes;
         }).then(function (upvotes) {

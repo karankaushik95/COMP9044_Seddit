@@ -2,7 +2,7 @@
 Initialization of the posts
 */
 
-import initApp from './main.js';
+import initializeUI from './init.js';
 import viewProfile from './profile.js';
 import commentListener from './commentModal.js';
 import upvoteListener from './upvoteModal.js';
@@ -14,7 +14,7 @@ function toDateTime(secs) {
     var t = new Date(1970, 0, 1); // Epoch
     var options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: 'true' };
     t.setSeconds(secs);
-    return t.toLocaleString('en-GB', options); // Would you like some Tea and Crumpets?
+    return t.toLocaleString('en-AU', options); // Would you like some Tea and Crumpets?
 }
 
 function updateField(feedList, sortable, apiUrl) {
@@ -306,12 +306,12 @@ function initializePosts(apiUrl) {
                 sessionStorage.clear();
                 alert("We're sorry to see you go! Hope to see you again soon!");
 
-                var temp = list.firstChild;
-                while (temp) {
-                    list.removeChild(temp);
-                    temp = list.firstChild;
-                }
-                initApp(apiUrl);
+                // var temp = list.firstChild;
+                // while (temp) {
+                //     list.removeChild(temp);
+                //     temp = list.firstChild;
+                // }
+                initializeUI(apiUrl);
             });
         }
     }

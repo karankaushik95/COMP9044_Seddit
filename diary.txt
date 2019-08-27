@@ -11,4 +11,4 @@
 26/08/19     22:30   03:00   Almost done with subset 3. Might not do search cause ceebs.
 27/08/19     18:00   18:50   Infinite Scroll finished
 27/08/19     18:55   19:20   Search finished. Adding final comments before last commit
-27/08/19     20:00   21:00   Final commit, comments, cleanup, and change search to listener on search and on enter key press because firefox on cse is weird
+27/08/19     20:00   21:30   Final commit, comments, cleanup, and change search to listener on search and on enter key press because firefox on cse is weird

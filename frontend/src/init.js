@@ -1,7 +1,8 @@
 /*
-
 Sets up the initial UI
 */
+
+import initializePosts from './initPosts.js';
 
 // Initializes the header part of the page. Still don't know why I separated it
 export function initializeHeader(root) {
@@ -58,15 +59,15 @@ function initializeFooter(root){
 }
 
 // Because Everything has to get together somewhere!
-function initializeUI() {
+function initializeUI(apiUrl) {
     const root = document.getElementById("root");
     // Comment this bit out before submitting
     
-    // var child = root.lastElementChild;
-    // while (child) {
-    //     root.removeChild(child);
-    //     child = root.lastElementChild;
-    // }
+    var child = root.lastElementChild;
+    while (child) {
+        root.removeChild(child);
+        child = root.lastElementChild;
+    }
 
     initializeHeader(root);
 
@@ -76,6 +77,8 @@ function initializeUI() {
     
     root.appendChild(main);
     initializeFooter(root);
+
+    initializePosts(apiUrl);
 }
 
 export default initializeUI;
