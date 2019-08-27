@@ -17,13 +17,8 @@ function toDateTime(secs) {
     return t.toLocaleString('en-GB', options);
 }
 
-function updateField(feedList, res, apiUrl) {
-    var sortable = Object.values(res);
-    //console.log(sortable);
-    sortable.sort(function (a, b) {
-        return b.meta.published - a.meta.published;
-    });
-    sortable = sortable[0];
+function updateField(feedList, sortable, apiUrl) {
+
     for (var i = 0; i < sortable.length; i++) {
 
         const li = document.createElement("li");
@@ -128,7 +123,7 @@ function updateField(feedList, res, apiUrl) {
 
         lastRow.appendChild(commentText);
 
-        if (res.posts[i].image) {
+        if (sortable[i].image) {
             const image = new Image(80, 80);
             image.src = 'data:image/jpeg;base64,' + sortable[i].image;
             image.style.display = "inline-block";
@@ -225,7 +220,7 @@ function initializePosts(apiUrl) {
         if (!sessionStorage.getItem('token')) {
             alert("This feature is only available to members of Seddit! Make an account today");
             return;
-        }else{
+        } else {
             newPost(apiUrl);
         }
     });
@@ -322,7 +317,22 @@ function initializePosts(apiUrl) {
             if (res.posts.length === 0) {
                 feedList.appendChild(emptyFeedLi);
             } else {
-                updateField(feedList, res, apiUrl);
+                var sortable = Object.values(res);
+                sortable.sort(function (a, b) {
+                    return b.meta.published - a.meta.published;
+                });
+                sortable = sortable[0];
+                updateField(feedList, sortable.slice(0, 4), apiUrl);
+                var nextPost = 4;
+                var lastY = 0;
+                document.addEventListener('scroll', function (event) {
+                    console.log(document.documentElement.scrollTop);
+                    if (document.documentElement.scrollTop >= (lastY + 100)) {
+                        scrollLoad(feedList, sortable, apiUrl, nextPost, lastY);
+                        nextPost += 1;
+                        lastY += 100;
+                    }
+                });
             }
         });
     } else {
@@ -333,11 +343,33 @@ function initializePosts(apiUrl) {
             }
         }).then(result => result.json()).then(function (res) {
             feedTitle.innerText = "Most recent posts";
-            updateField(feedList, res, apiUrl);
+            var sortable = Object.values(res);
+            sortable.sort(function (a, b) {
+                return b.meta.published - a.meta.published;
+            });
+            sortable = sortable[0];
+            updateField(feedList, sortable, apiUrl);
+            var nextPost = 4;
+            var lastY = 0;
+            document.addEventListener('scroll', function (event) {
+                console.log(document.documentElement.scrollTop);
+                if (document.documentElement.scrollTop >= (lastY + 100)) {
+                    scrollLoad(feedList, sortable, apiUrl, nextPost, lastY);
+                    nextPost += 1;
+                    lastY += 100;
+                }
+            });
         });
     }
 
     main.appendChild(feedList);
 }
+
+function scrollLoad(feedList, sortable, apiUrl, nextPost, lastPos) {
+    updateField(feedList, sortable.slice(nextPost, nextPost + 1), apiUrl);
+}
+
+//document.addEventListener('scroll', scrollLoad());
+
 
 export default initializePosts;
