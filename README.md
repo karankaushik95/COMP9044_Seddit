@@ -280,3 +280,7 @@ Run the backend server and navigate to the root, usualy 127.0.0.1:5000 or simila
 3. I'm getting a '500' error
 
 That means that the server is crashing, this might mean your doing something really weird the backend wasn't ready to handle, in general check the forum in this case. We may have just made a oopsie.
+
+# My Implementation
+
+I've completed all features until level 3. Tried to attempt some of the level 4 ones, but ran out of time.
